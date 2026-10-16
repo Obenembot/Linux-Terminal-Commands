@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>100 Essential Linux Terminal Commands</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.55
+        }
+
+        header {
+            padding: 56px 24px 40px;
+            text-align: center;
+            background: linear-gradient(180deg, #161b22, #0d1117);
+            border-bottom: 1px solid #30363d
+        }
+
+        header h1 {
+            margin: 0;
+            font-family: "JetBrains Mono", Consolas, monospace;
+            color: #3fb950;
+            font-size: clamp(1.8rem, 4vw, 2.8rem)
+        }
+
+        header h1::before {
+            content: "$ ";
+            color: #8b949e
+        }
+
+        header p {
+            max-width: 760px;
+            margin: 12px auto 0;
+            color: #8b949e
+        }
+
+        /* 
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: #161b22ee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 10px 16px
+        } */
+
+        /* nav a {
+            white-space: nowrap;
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: .85rem;
+            padding: 5px 10px;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+           
+        } */
+
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 5;
+            background: #161b22ee;
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid #30363d;
+
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 16px;
+
+            overflow-x: visible;
+        }
+
+        nav a {
+            white-space: normal;
+            overflow-wrap: anywhere;
+            text-align: center;
+
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.85rem;
+            padding: 5px 10px;
+            border: 1px solid #30363d;
+            border-radius: 20px;
+
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Mobile devices */
+        @media (max-width: 600px) {
+            nav {
+                gap: 5px;
+                padding: 8px;
+            }
+
+            nav a {
+                font-size: 0.75rem;
+                padding: 6px 8px;
+            }
+        }
+
+
+        nav a:hover {
+            background: #1f6feb33
+        }
+
+
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 24px
+        }
+
+        section {
+            margin: 40px 0;
+            scroll-margin-top: 70px
+        }
+
+        h2 {
+            color: #f0f6fc;
+            border-left: 4px solid #3fb950;
+            padding-left: 12px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #21262d;
+            vertical-align: top
+        }
+
+        th {
+            background: #21262d;
+            color: #8b949e;
+            font-size: .8rem;
+            text-transform: uppercase
+        }
+
+        tr:hover td {
+            background: #1c2128
+        }
+
+        td.n {
+            color: #8b949e;
+            width: 40px
+        }
+
+        code,
+        pre {
+            font-family: "JetBrains Mono", Consolas, monospace;
+            font-size: .88rem
+        }
+
+        code {
+            background: #0d1117;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #e6edf3
+        }
+
+        code.cmd {
+            color: #3fb950;
+            font-weight: 600
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px
+        }
+
+        .card h3 {
+            margin: 0 0 10px;
+            font-size: 1rem;
+            color: #f0f6fc
+        }
+
+        pre {
+            margin: 0;
+            background: #010409;
+            padding: 12px;
+            border-radius: 6px;
+            color: #3fb950;
+            overflow-x: auto
+        }
+
+        ul {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px 36px
+        }
+
+        footer {
+            text-align: center;
+            color: #8b949e;
+            padding: 30px;
+            border-top: 1px solid #30363d
+        }
+
+        @media(max-width:700px) {
+
+            th:nth-child(4),
+            td:nth-child(4) {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>100 Essential Linux Terminal Commands</h1>
+        <p>Below are 100 commonly used Linux terminal commands, organized into 10 categories. Each command includes its
+            purpose and a practical example.</p>
+        <p>These commands are useful for Linux administration, software development, DevOps, Docker environments, and
+            everyday terminal operations.</p>
+    </header>
+    <nav><a href="#s0">1. File and Directory Management (1–15)</a><a href="#s1">2. Viewing and Editing Files
+            (16–25)</a><a href="#s2">3. File Permissions and Ownership (26–35)</a><a href="#s3">4. System Information
+            and Monitoring (36–45)</a><a href="#s4">5. Process Management (46–55)</a><a href="#s5">6. Networking
+            Commands (56–65)</a><a href="#s6">7. Package and Service Management (66–75)</a><a href="#s7">8. Searching
+            and Text Processing (76–85)</a><a href="#s8">9. Compression and Archives (86–92)</a><a href="#s9">10.
+            Development and Advanced Commands (93–100)</a><a href="#practical">Practical examples</a><a
+            href="#syntax">Syntax</a></nav>
+    <main>
+        <section id="s0">
+            <h2>1. File and Directory Management (1–15)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">1</td>
+                        <td><code class="cmd">pwd</code></td>
+                        <td>Show current directory</td>
+                        <td><code>pwd</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">2</td>
+                        <td><code class="cmd">ls</code></td>
+                        <td>List files and directories</td>
+                        <td><code>ls</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">3</td>
+                        <td><code class="cmd">cd</code></td>
+                        <td>Change directory</td>
+                        <td><code>cd /home/user</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">4</td>
+                        <td><code class="cmd">mkdir</code></td>
+                        <td>Create a directory</td>
+                        <td><code>mkdir projects</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">5</td>
+                        <td><code class="cmd">rmdir</code></td>
+                        <td>Remove an empty directory</td>
+                        <td><code>rmdir old_folder</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">6</td>
+                        <td><code class="cmd">touch</code></td>
+                        <td>Create an empty file</td>
+                        <td><code>touch file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">7</td>
+                        <td><code class="cmd">cp</code></td>
+                        <td>Copy files or directories</td>
+                        <td><code>cp file.txt backup.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">8</td>
+                        <td><code class="cmd">mv</code></td>
+                        <td>Move or rename files</td>
+                        <td><code>mv old.txt new.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">9</td>
+                        <td><code class="cmd">rm</code></td>
+                        <td>Delete files</td>
+                        <td><code>rm file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">10</td>
+                        <td><code class="cmd">find</code></td>
+                        <td>Search for files</td>
+                        <td><code>find /home -name &quot;*.txt&quot;</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">11</td>
+                        <td><code class="cmd">locate</code></td>
+                        <td>Find files using an index</td>
+                        <td><code>locate config.php</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">12</td>
+                        <td><code class="cmd">tree</code></td>
+                        <td>Display directory structure</td>
+                        <td><code>tree /home/user</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">13</td>
+                        <td><code class="cmd">stat</code></td>
+                        <td>Show file metadata</td>
+                        <td><code>stat file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">14</td>
+                        <td><code class="cmd">file</code></td>
+                        <td>Identify file type</td>
+                        <td><code>file document.pdf</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">15</td>
+                        <td><code class="cmd">basename</code></td>
+                        <td>Extract filename from path</td>
+                        <td><code>basename /home/user/file.txt</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s1">
+            <h2>2. Viewing and Editing Files (16–25)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">16</td>
+                        <td><code class="cmd">cat</code></td>
+                        <td>Display file contents</td>
+                        <td><code>cat file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">17</td>
+                        <td><code class="cmd">less</code></td>
+                        <td>View files page by page</td>
+                        <td><code>less server.log</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">18</td>
+                        <td><code class="cmd">more</code></td>
+                        <td>View file contents</td>
+                        <td><code>more file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">19</td>
+                        <td><code class="cmd">head</code></td>
+                        <td>Display first lines</td>
+                        <td><code>head -n 10 file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">20</td>
+                        <td><code class="cmd">tail</code></td>
+                        <td>Display last lines</td>
+                        <td><code>tail -n 20 server.log</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">21</td>
+                        <td><code class="cmd">nano</code></td>
+                        <td>Edit files in terminal</td>
+                        <td><code>nano config.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">22</td>
+                        <td><code class="cmd">vim</code></td>
+                        <td>Advanced text editor</td>
+                        <td><code>vim application.properties</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">23</td>
+                        <td><code class="cmd">echo</code></td>
+                        <td>Print text or variables</td>
+                        <td><code>echo &quot;Hello Linux&quot;</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">24</td>
+                        <td><code class="cmd">wc</code></td>
+                        <td>Count lines, words and bytes</td>
+                        <td><code>wc -l file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">25</td>
+                        <td><code class="cmd">nl</code></td>
+                        <td>Display numbered lines</td>
+                        <td><code>nl file.txt</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s2">
+            <h2>3. File Permissions and Ownership (26–35)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">26</td>
+                        <td><code class="cmd">chmod</code></td>
+                        <td>Change file permissions</td>
+                        <td><code>chmod 755 script.sh</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">27</td>
+                        <td><code class="cmd">chown</code></td>
+                        <td>Change file owner</td>
+                        <td><code>sudo chown user file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">28</td>
+                        <td><code class="cmd">chgrp</code></td>
+                        <td>Change file group</td>
+                        <td><code>sudo chgrp developers file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">29</td>
+                        <td><code class="cmd">umask</code></td>
+                        <td>Set default permission mask</td>
+                        <td><code>umask 022</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">30</td>
+                        <td><code class="cmd">id</code></td>
+                        <td>Display user and group IDs</td>
+                        <td><code>id</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">31</td>
+                        <td><code class="cmd">whoami</code></td>
+                        <td>Show current username</td>
+                        <td><code>whoami</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">32</td>
+                        <td><code class="cmd">groups</code></td>
+                        <td>Show user&#x27;s groups</td>
+                        <td><code>groups</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">33</td>
+                        <td><code class="cmd">sudo</code></td>
+                        <td>Execute with elevated privileges</td>
+                        <td><code>sudo apt update</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">34</td>
+                        <td><code class="cmd">su</code></td>
+                        <td>Switch user</td>
+                        <td><code>su - username</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">35</td>
+                        <td><code class="cmd">passwd</code></td>
+                        <td>Change user password</td>
+                        <td><code>passwd</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s3">
+            <h2>4. System Information and Monitoring (36–45)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">36</td>
+                        <td><code class="cmd">uname</code></td>
+                        <td>Display system information</td>
+                        <td><code>uname -a</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">37</td>
+                        <td><code class="cmd">hostname</code></td>
+                        <td>Display system hostname</td>
+                        <td><code>hostname</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">38</td>
+                        <td><code class="cmd">uptime</code></td>
+                        <td>Show system running time</td>
+                        <td><code>uptime</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">39</td>
+                        <td><code class="cmd">date</code></td>
+                        <td>Show date and time</td>
+                        <td><code>date</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">40</td>
+                        <td><code class="cmd">cal</code></td>
+                        <td>Display calendar</td>
+                        <td><code>cal</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">41</td>
+                        <td><code class="cmd">top</code></td>
+                        <td>Monitor processes</td>
+                        <td><code>top</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">42</td>
+                        <td><code class="cmd">htop</code></td>
+                        <td>Interactive process monitor</td>
+                        <td><code>htop</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">43</td>
+                        <td><code class="cmd">free</code></td>
+                        <td>Show memory usage</td>
+                        <td><code>free -h</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">44</td>
+                        <td><code class="cmd">df</code></td>
+                        <td>Show disk space</td>
+                        <td><code>df -h</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">45</td>
+                        <td><code class="cmd">du</code></td>
+                        <td>Show directory disk usage</td>
+                        <td><code>du -sh /var/log</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s4">
+            <h2>5. Process Management (46–55)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">46</td>
+                        <td><code class="cmd">ps</code></td>
+                        <td>List running processes</td>
+                        <td><code>ps aux</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">47</td>
+                        <td><code class="cmd">kill</code></td>
+                        <td>Send signal to process</td>
+                        <td><code>kill 1234</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">48</td>
+                        <td><code class="cmd">killall</code></td>
+                        <td>Stop processes by name</td>
+                        <td><code>killall firefox</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">49</td>
+                        <td><code class="cmd">pkill</code></td>
+                        <td>Signal matching processes</td>
+                        <td><code>pkill -f myapp.jar</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">50</td>
+                        <td><code class="cmd">jobs</code></td>
+                        <td>Show shell background jobs</td>
+                        <td><code>jobs</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">51</td>
+                        <td><code class="cmd">bg</code></td>
+                        <td>Resume job in background</td>
+                        <td><code>bg %1</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">52</td>
+                        <td><code class="cmd">fg</code></td>
+                        <td>Bring job to foreground</td>
+                        <td><code>fg %1</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">53</td>
+                        <td><code class="cmd">nohup</code></td>
+                        <td>Keep command running after logout</td>
+                        <td><code>nohup java -jar app.jar &amp;</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">54</td>
+                        <td><code class="cmd">nice</code></td>
+                        <td>Start process with priority</td>
+                        <td><code>nice -n 10 ./script.sh</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">55</td>
+                        <td><code class="cmd">renice</code></td>
+                        <td>Change process priority</td>
+                        <td><code>renice -n 5 -p 1234</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s5">
+            <h2>6. Networking Commands (56–65)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">56</td>
+                        <td><code class="cmd">ping</code></td>
+                        <td>Test network connectivity</td>
+                        <td><code>ping google.com</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">57</td>
+                        <td><code class="cmd">ip</code></td>
+                        <td>Manage network interfaces</td>
+                        <td><code>ip addr</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">58</td>
+                        <td><code class="cmd">ifconfig</code></td>
+                        <td>Display network configuration (legacy)</td>
+                        <td><code>ifconfig</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">59</td>
+                        <td><code class="cmd">curl</code></td>
+                        <td>Send HTTP requests</td>
+                        <td><code>curl https://example.com</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">60</td>
+                        <td><code class="cmd">wget</code></td>
+                        <td>Download files</td>
+                        <td><code>wget https://example.com/file.zip</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">61</td>
+                        <td><code class="cmd">ssh</code></td>
+                        <td>Connect to remote server</td>
+                        <td><code>ssh user@192.168.1.10</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">62</td>
+                        <td><code class="cmd">scp</code></td>
+                        <td>Copy files securely</td>
+                        <td><code>scp file.txt user@server:/tmp/</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">63</td>
+                        <td><code class="cmd">netstat</code></td>
+                        <td>Show network connections (legacy)</td>
+                        <td><code>netstat -tuln</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">64</td>
+                        <td><code class="cmd">ss</code></td>
+                        <td>Inspect sockets and ports</td>
+                        <td><code>ss -tulnp</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">65</td>
+                        <td><code class="cmd">traceroute</code></td>
+                        <td>Trace network route</td>
+                        <td><code>traceroute google.com</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s6">
+            <h2>7. Package and Service Management (66–75)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">66</td>
+                        <td><code class="cmd">apt</code></td>
+                        <td>Manage Debian/Ubuntu packages</td>
+                        <td><code>sudo apt update</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">67</td>
+                        <td><code class="cmd">apt-get</code></td>
+                        <td>Install and manage packages</td>
+                        <td><code>sudo apt-get install git</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">68</td>
+                        <td><code class="cmd">dpkg</code></td>
+                        <td>Manage Debian packages</td>
+                        <td><code>dpkg -l</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">69</td>
+                        <td><code class="cmd">yum</code></td>
+                        <td>Manage RPM-based packages</td>
+                        <td><code>sudo yum install git</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">70</td>
+                        <td><code class="cmd">dnf</code></td>
+                        <td>Modern RPM package manager</td>
+                        <td><code>sudo dnf install git</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">71</td>
+                        <td><code class="cmd">rpm</code></td>
+                        <td>Query RPM packages</td>
+                        <td><code>rpm -qa</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">72</td>
+                        <td><code class="cmd">systemctl</code></td>
+                        <td>Manage systemd services</td>
+                        <td><code>sudo systemctl restart nginx</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">73</td>
+                        <td><code class="cmd">service</code></td>
+                        <td>Manage services</td>
+                        <td><code>sudo service apache2 status</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">74</td>
+                        <td><code class="cmd">journalctl</code></td>
+                        <td>View systemd logs</td>
+                        <td><code>journalctl -u nginx</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">75</td>
+                        <td><code class="cmd">crontab</code></td>
+                        <td>Manage scheduled tasks</td>
+                        <td><code>crontab -e</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s7">
+            <h2>8. Searching and Text Processing (76–85)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">76</td>
+                        <td><code class="cmd">grep</code></td>
+                        <td>Search text patterns</td>
+                        <td><code>grep &quot;ERROR&quot; app.log</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">77</td>
+                        <td><code class="cmd">awk</code></td>
+                        <td>Process structured text</td>
+                        <td><code>awk &#x27;{print $1}&#x27; file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">78</td>
+                        <td><code class="cmd">sed</code></td>
+                        <td>Transform text</td>
+                        <td><code>sed &#x27;s/old/new/g&#x27; file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">79</td>
+                        <td><code class="cmd">sort</code></td>
+                        <td>Sort lines</td>
+                        <td><code>sort names.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">80</td>
+                        <td><code class="cmd">uniq</code></td>
+                        <td>Remove adjacent duplicate lines</td>
+                        <td><code>sort names.txt \| uniq</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">81</td>
+                        <td><code class="cmd">cut</code></td>
+                        <td>Extract columns</td>
+                        <td><code>cut -d &#x27;,&#x27; -f 1 data.csv</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">82</td>
+                        <td><code class="cmd">tr</code></td>
+                        <td>Translate characters</td>
+                        <td><code>echo hello \| tr a-z A-Z</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">83</td>
+                        <td><code class="cmd">diff</code></td>
+                        <td>Compare two files</td>
+                        <td><code>diff file1.txt file2.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">84</td>
+                        <td><code class="cmd">xargs</code></td>
+                        <td>Build commands from input</td>
+                        <td><code>printf &#x27;%s\n&#x27; *.txt \| xargs -n 1 echo</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">85</td>
+                        <td><code class="cmd">tee</code></td>
+                        <td>Display and save output</td>
+                        <td><code>echo hello \| tee output.txt</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s8">
+            <h2>9. Compression and Archives (86–92)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">86</td>
+                        <td><code class="cmd">tar</code></td>
+                        <td>Create or extract archives</td>
+                        <td><code>tar -czf backup.tar.gz folder/</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">87</td>
+                        <td><code class="cmd">gzip</code></td>
+                        <td>Compress a file</td>
+                        <td><code>gzip file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">88</td>
+                        <td><code class="cmd">gunzip</code></td>
+                        <td>Decompress gzip files</td>
+                        <td><code>gunzip file.txt.gz</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">89</td>
+                        <td><code class="cmd">zip</code></td>
+                        <td>Create ZIP archives</td>
+                        <td><code>zip -r backup.zip folder/</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">90</td>
+                        <td><code class="cmd">unzip</code></td>
+                        <td>Extract ZIP archives</td>
+                        <td><code>unzip backup.zip</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">91</td>
+                        <td><code class="cmd">bzip2</code></td>
+                        <td>Compress using bzip2</td>
+                        <td><code>bzip2 file.txt</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">92</td>
+                        <td><code class="cmd">bunzip2</code></td>
+                        <td>Decompress bzip2 files</td>
+                        <td><code>bunzip2 file.txt.bz2</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="s9">
+            <h2>10. Development and Advanced Commands (93–100)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="n">93</td>
+                        <td><code class="cmd">git</code></td>
+                        <td>Version control</td>
+                        <td><code>git status</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">94</td>
+                        <td><code class="cmd">docker</code></td>
+                        <td>Manage Docker containers</td>
+                        <td><code>docker ps</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">95</td>
+                        <td><code class="cmd">docker compose</code></td>
+                        <td>Manage multi-container apps</td>
+                        <td><code>docker compose up -d</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">96</td>
+                        <td><code class="cmd">java</code></td>
+                        <td>Run Java applications</td>
+                        <td><code>java -jar app.jar</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">97</td>
+                        <td><code class="cmd">javac</code></td>
+                        <td>Compile Java programs</td>
+                        <td><code>javac Main.java</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">98</td>
+                        <td><code class="cmd">python3</code></td>
+                        <td>Run Python scripts</td>
+                        <td><code>python3 app.py</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">99</td>
+                        <td><code class="cmd">history</code></td>
+                        <td>Display previous commands</td>
+                        <td><code>history</code></td>
+                    </tr>
+                    <tr>
+                        <td class="n">100</td>
+                        <td><code class="cmd">alias</code></td>
+                        <td>Create command shortcuts</td>
+                        <td><code>alias ll=&#x27;ls -la&#x27;</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="practical">
+            <h2>Practical Linux command examples</h2>
+            <p>Here are some particularly useful combinations for software development and server administration.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>1. Check whether a Spring Boot application is running</h3>
+                    <pre>ps aux | grep &#x27;[j]ava&#x27;</pre>
+                </div>
+                <div class="card">
+                    <h3>2. Check whether port 8080 is listening</h3>
+                    <pre>sudo ss -tulnp | grep &#x27;:8080&#x27;</pre>
+                </div>
+                <div class="card">
+                    <h3>3. Monitor application logs in real time</h3>
+                    <pre>tail -f /var/log/myapp/application.log</pre>
+                </div>
+                <div class="card">
+                    <h3>4. Check a Docker container&#x27;s logs</h3>
+                    <pre>docker logs -f --tail 100 container_name</pre>
+                </div>
+                <div class="card">
+                    <h3>5. Check service health</h3>
+                    <pre>sudo systemctl status nginx</pre>
+                </div>
+                <div class="card">
+                    <h3>6. Find large directories</h3>
+                    <pre>du -h --max-depth=1 /var/log | sort -h</pre>
+                </div>
+                <div class="card">
+                    <h3>7. Find files modified in the last 24 hours</h3>
+                    <pre>find /var/www -type f -mtime -1</pre>
+                </div>
+                <div class="card">
+                    <h3>8. Search for errors in application logs</h3>
+                    <pre>grep -i &quot;error&quot; application.log</pre>
+                </div>
+                <div class="card">
+                    <h3>9. Create and execute a Bash script</h3>
+                    <pre>touch deploy.sh
+nano deploy.sh
+chmod +x deploy.sh
+./deploy.sh</pre>
+                </div>
+                <div class="card">
+                    <h3>10. Check server CPU, RAM and disk usage</h3>
+                    <pre>top
+free -h
+df -h
+Understanding Linux command syntax</pre>
+                </div>
+            </div>
+        </section>
+        <section id="syntax">
+            <h2>Understanding Linux command syntax</h2>
+            <p>Most Linux commands follow this structure:</p>
+            <pre>command [options] [arguments]</pre>
+            <p>For example:</p>
+            <pre>ls -lah /var/log</pre>
+            <ul>
+                <li><code>ls</code> — command</li>
+                <li><code>-l</code> — detailed listing</li>
+                <li><code>-a</code> — include hidden files</li>
+                <li><code>-h</code> — human-readable file sizes</li>
+                <li><code>/var/log</code> — target directory</li>
+            </ul>
+        </section>
+    </main>
+    <footer>100 Essential Linux Terminal Commands</footer>
+</body>
+
+</html>
